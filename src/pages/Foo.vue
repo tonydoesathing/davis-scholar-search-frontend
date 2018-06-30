@@ -19,7 +19,7 @@
         <li v-for="(name,index) of names" v-bind:key="name.key">{{index}}, {{name}}<button v-on:click="removeNameFromList(index)">X</button></li>
       </ul>
       <input v-model="nameTextBox">
-      <button v-on:click="addNameToList">Add Name</button>
+      <button v-on:click="addNameToList" class="pure-button">Add Name</button>
     </div>
 </template>
 
