@@ -1,10 +1,4 @@
-<template>
-    <div>
-      <h1>meow</h1>
-      <p>{{id}}</p>
-      <p>{{postid}}</p>
-    </div>
-</template>
+
 
 <script>
 export default {

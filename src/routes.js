@@ -1,8 +1,18 @@
-import Foo from "./pages/Foo";
+import Explorer from "./pages/Explorer";
 import Bar from "./pages/Bar";
 
 const routes = [
-  { path: "/foo", component: Foo },
+  {
+    path: "/",
+    component: Explorer,
+    props: function(route) {
+      var propsobj = {};
+      if (route.query.headings) {
+        propsobj["headings"] = route.query.headings;
+      }
+      return propsobj;
+    }
+  },
   {
     path: "/bar",
     component: Bar,
