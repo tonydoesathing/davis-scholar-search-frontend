@@ -1,32 +1,58 @@
 <template>
+  <div>
     <table>
-      <thead>
-        <tr>
-          <th v-for="key in columns"
-            @click="sortBy(key)"
-            :class="{ active: sortKey == key }">
-            {{ key | capitalize }}
-            <span class="arrow" :class="sortOrders[key] > 0 ? 'asc' : 'dsc'">
-            </span>
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="entry in filteredData">
-          <td v-for="key in columns">
-            {{entry[key]}}
-          </td>
-        </tr>
-      </tbody>
-    </table>
+        <thead>
+          <tr>
+            <th v-for="key in columns"
+              @click="sortBy(key)"
+              :class="{ active: sortKey == key }">
+              {{ key | capitalize }}
+              <span class="arrow" :class="sortOrders[key] > 0 ? 'asc' : 'dsc'">
+              </span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="entry in filteredData">
+            <td v-for="key in columns">
+              {{entry[key]}}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>Debug</h2>
+      <p>Sort key: {{this.sortKey}}</p>
+      <p>Sort Order: {{this.sortOrders}}</p>
+      <p>Column types: {{this.columnsType}}</p>
+  </div>
+    
 </template>
 <script>
+function determineTypeOfStringData(thestring) {
+  //do some magic to determine the actual data type of the string
+  return typeof thestring;
+}
+
 export default {
   name: "demo-grid",
   props: {
     data: Array,
     columns: Array,
-    filterKey: String
+    filterKey: String,
+    columnsType: {
+      type: Object,
+      default: function() {
+        var types = {};
+        for (var key in this.columns) {
+          //types[key] = typeof this.data[0][key];
+          types[this.columns[key]] = determineTypeOfStringData(
+            this.data[0][this.columns[key]]
+          );
+        }
+        return types;
+      }
+    }
   },
   data: function() {
     var sortOrders = {};

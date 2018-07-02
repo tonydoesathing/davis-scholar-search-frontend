@@ -21,19 +21,15 @@
 
 <script>
 import Table from "../components/table";
+import JSON from "../assets/test.json";
 
 export default {
   name: "Explorer",
   data: function() {
     return {
       searchQuery: "",
-      gridColumns: ["name", "power"],
-      gridData: [
-        { name: "Chuck Norris", power: Infinity },
-        { name: "Bruce Lee", power: 9000 },
-        { name: "Jackie Chan", power: 7000 },
-        { name: "Jet Li", power: 8000 }
-      ]
+      gridColumns: ["Book ID", "Book Name", "Category", "Price"],
+      gridData: JSON
     };
   },
   components: {
