@@ -1,7 +1,8 @@
 <template>
-  <div>
+  <div class="router-view">
+    
+    <router-view class="router-view"></router-view>
     <Menu/>
-    <router-view></router-view>
   </div>
 </template>
 
@@ -20,5 +21,9 @@ export default {
 </script>
 
 <style>
-
+.router-view {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
 </style>

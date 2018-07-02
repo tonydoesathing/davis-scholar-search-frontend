@@ -2,35 +2,22 @@
   <div id="MenuComponent">
   
   
-    <div>
-      <img v-on:click="buttonClick" class="pure-button hamburger" src="../assets/Hamburger.svg">
+    <div class="hamburger-holder">
+      <img v-on:click="buttonClick" class="hamburger" src="../assets/Hamburger.svg">
     </div>
     <div id="Menu" v-bind:class="activeCheck">
-        <div class="pure-menu">
-            <a class="pure-menu-heading" href="#">Davis Scholar Search</a>
-
-            <ul class="pure-menu-list">
-              <li class="pure-menu-item">
-                <a href="#" class="pure-menu-link">Explorer</a>
-                <ul>
-                  <li class="pure-menu-item"><a href="/">Home</a></li>
-                  <li class="pure-menu-item"><a href="/">Testing Data</a></li>
-                  <li class="pure-menu-item"><a href="/">Student Demographics</a></li>
-                  <li class="pure-menu-item"><a href="/">Tuition and Aid</a></li>
-                </ul>
-                
-              </li>
-              
-                <li class="pure-menu-item"><a href="#" class="pure-menu-link">Home</a></li>
-                <li class="pure-menu-item"><a href="#" class="pure-menu-link">About</a></li>
-
-                <li class="pure-menu-item">
-                    <a href="#" class="pure-menu-link">Services</a>
-                </li>
-
-                <li class="pure-menu-item"><a href="#" class="pure-menu-link">Contact</a></li>
+      <h2>Davis Scholar Search</h2>
+      <div class="navcontainer">
+        <ul>
+            <li><router-link to="/" ><span v-on:click="exitClick" >Explorer</span></router-link></li>
+            <ul>
+              <li><router-link to="/" ><span v-on:click="exitClick" >Admissions Data</span></router-link></li>
+              <li><router-link to="/" ><span v-on:click="exitClick" >Student Demographics</span></router-link></li>
+              <li><router-link to="/" ><span v-on:click="exitClick" >Cost and Aid</span></router-link></li>
             </ul>
-        </div>
+          <li><router-link to="/" ><span v-on:click="exitClick" >About</span></router-link></li>
+        </ul>
+      </div>
     </div>
     <div v-if="isActive" id="exitContainer" v-on:click="exitClick">
     </div>
@@ -39,11 +26,10 @@
 <script>
 export default {
   name: "Menu",
-  props: {
-    isActive: {
-      type: Boolean,
-      default: false
-    }
+  data: function() {
+    return {
+      isActive: false
+    };
   },
   computed: {
     activeCheck: function() {
@@ -81,23 +67,31 @@ export default {
 
 #MenuComponent {
   height: 100%;
+  float: left;
+  display: block;
 }
 #Menu {
   position: absolute;
-  max-width: 20%;
-  min-width: 10%;
+  width: 230px;
   height: 100%;
+  float: left;
   top: 0;
   left: -20%;
-  background-color: #191818;
-  display: block;
+  background-color: #111d33;
+
+  -webkit-box-shadow: 10px 0px 60px -5px rgba(105, 105, 105, 0.67);
+  -moz-box-shadow: 10px 0px 60px -5px rgba(105, 105, 105, 0.67);
+  box-shadow: 10px 0px 60px -5px rgba(105, 105, 105, 0.67);
 }
-#Menu .pure-menu-heading {
-  background: #1f8dd6;
-  font-size: 120%;
+#Menu h2 {
+  color: white;
+  padding: 10%;
 }
 #Menu.active {
   left: 0;
+}
+#Menu span {
+  color: #cadedf;
 }
 #exitContainer {
   position: absolute;
@@ -106,12 +100,27 @@ export default {
   width: 80%;
   height: 100%;
 }
-.hamburger {
+.hamburger:hover {
+  border-radius: 5%;
+  background-color: #cadedf;
+}
+.hamburger-holder {
   width: 60px;
   height: 60px;
   position: absolute;
   left: 1em;
   top: 1em;
   padding: 0.5em 0.5em;
+}
+.navcontainer {
+  text-align: right;
+}
+.navcontainer li {
+  padding-right: 10%;
+  padding-top: 0.4em;
+  padding-bottom: 0.25em;
+}
+.navcontainer li:hover {
+  background-color: #446ab4;
 }
 </style>
