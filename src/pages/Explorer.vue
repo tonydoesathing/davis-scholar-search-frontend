@@ -8,18 +8,37 @@
         <div class="spacer"></div>
 
         <div class="center-container">
-          <input type="text" placeholder="Search..." class="searchbox">
+          <input type="text" placeholder="Search..." class="searchbox" name="query" v-model="searchQuery">
         </div>
         
       </div>
-      <div class="table"></div>
+      <div class="tableholder">
+        <Table :data="gridData" :columns="gridColumns" :filter-key="searchQuery"/>
+      </div>
+      
     </div>
 </template>
 
 <script>
+import Table from "../components/table";
+
 export default {
   name: "Explorer",
-  props: {}
+  data: function() {
+    return {
+      searchQuery: "",
+      gridColumns: ["name", "power"],
+      gridData: [
+        { name: "Chuck Norris", power: Infinity },
+        { name: "Bruce Lee", power: 9000 },
+        { name: "Jackie Chan", power: 7000 },
+        { name: "Jet Li", power: 8000 }
+      ]
+    };
+  },
+  components: {
+    Table
+  }
 };
 </script>
 <style>
@@ -53,12 +72,41 @@ export default {
   flex-direction: column;
 }
 
-.table {
-  background-color: blue;
-}
 .searchbox {
   padding: 0.25em;
   border: 2px solid #cadedf;
   border-radius: 5px;
+}
+.tableholder {
+  width: 80%;
+  margin: auto;
+  position: relative;
+  display: flex;
+  padding-left: 10%;
+  padding-right: 10%;
+}
+.tableholder table {
+  border: 2px solid #779ee5;
+  border-radius: 3px;
+  background-color: #cadedf;
+  width: 100%;
+}
+.tableholder tr:nth-child(odd) td {
+  background-color: #cadedf;
+}
+.tableholder th {
+  background-color: #779ee5;
+  font-size: 1.5em;
+  font-family: "Encode Sans Condensed", sans-serif;
+  font-weight: 100;
+  padding: 0.5em;
+  color: white;
+}
+.tableholder td {
+  font-size: 1em;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 300;
+  padding: 0.25em;
+  border: 5px solid white;
 }
 </style>
