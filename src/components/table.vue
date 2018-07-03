@@ -6,7 +6,7 @@
             <th v-for="key in columns"
               @click="sortBy(key)"
               :class="{ active: sortKey == key }">
-              {{ key | capitalize }}
+              {{ keyHeadings[key] | capitalize }}
               <span class="arrow" :class="sortOrders[key] > 0 ? 'asc' : 'dsc'">
               </span>
             </th>
@@ -15,7 +15,7 @@
         <tbody>
           <tr v-for="entry in filteredData">
             <td v-for="key in columns">
-              {{entry[key]}}
+              <span v-html="entryFilter(entry[key])"></span>
             </td>
           </tr>
         </tbody>
@@ -29,8 +29,24 @@
     
 </template>
 <script>
+import linkifyHtml from "linkifyjs/html";
+
+function isFloat(n) {
+  var num = parseFloat(n);
+  return num === num && num % 1 !== 0;
+}
+
 function determineTypeOfStringData(thestring) {
   //do some magic to determine the actual data type of the string
+
+  //check for number
+  if (!Number.isNaN(Number(thestring))) {
+    if (isFloat(thestring)) {
+      thestring = parseFloat(thestring);
+    } else {
+      thestring = Number(thestring);
+    }
+  }
   return typeof thestring;
 }
 
@@ -51,6 +67,22 @@ export default {
           );
         }
         return types;
+      }
+    },
+    keyHeadings: {
+      /*
+        {
+          "key": "Heading to Use"
+        }
+
+      */
+      type: Object,
+      default: function() {
+        var headings = {};
+        for (var column in this.columns) {
+          headings[this.columns[column]] = this.columns[column];
+        }
+        return headings;
       }
     }
   },
@@ -82,9 +114,15 @@ export default {
         });
       }
       if (sortKey) {
+        var columnType = this.columnsType[sortKey];
         data = data.slice().sort(function(a, b) {
           a = a[sortKey];
           b = b[sortKey];
+          if (columnType) {
+            if (columnType === "number") {
+              return (+a === +b ? 0 : +a > +b ? 1 : -1) * order;
+            }
+          }
           return (a === b ? 0 : a > b ? 1 : -1) * order;
         });
       }
@@ -100,6 +138,17 @@ export default {
     sortBy: function(key) {
       this.sortKey = key;
       this.sortOrders[key] = this.sortOrders[key] * -1;
+    },
+    entryFilter: function(str) {
+      /*if (!str) return " ";
+     */
+      if (!str) {
+        return "";
+      } else {
+        return linkifyHtml(str, {
+          defaultProtocol: "https"
+        });
+      }
     }
   }
 };

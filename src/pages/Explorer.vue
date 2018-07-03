@@ -13,7 +13,7 @@
         
       </div>
       <div class="tableholder">
-        <Table :data="gridData" :columns="gridColumns" :filter-key="searchQuery"/>
+        <Table :data="gridData" :columns="gridColumns" :filter-key="searchQuery" :keyHeadings="gridHeadings"/>
       </div>
       
     </div>
@@ -28,8 +28,15 @@ export default {
   data: function() {
     return {
       searchQuery: "",
-      gridColumns: ["Book ID", "Book Name", "Category", "Price"],
-      gridData: JSON
+      gridColumns: ["Book ID", "Book Name", "Category", "Price", "URL"],
+      gridData: JSON,
+      gridHeadings: {
+        "Book ID": "HAMSTER",
+        "Book Name": "JIMMY",
+        Category: "bollocks",
+        Price: "Price",
+        URL: "URL"
+      }
     };
   },
   components: {

@@ -3,7 +3,8 @@
     "Book ID": "1",
     "Book Name": "Computer Architecture",
     "Category": "Computers",
-    "Price": "125.60"
+    "Price": "125.60",
+    "URL": "http://www.bing.com/"
   },
   {
     "Book ID": "2",
@@ -15,6 +16,7 @@
     "Book ID": "3",
     "Book Name": "Popular Science",
     "Category": "Science",
-    "Price": "210.40"
+    "Price": "210.40",
+    "URL": "http://www.google.com/"
   }
 ]
