@@ -15,13 +15,16 @@
       <div class="tableholder">
         <Table :data="gridData" :columns="gridColumns" :filter-key="searchQuery" :keyHeadings="gridHeadings"/>
       </div>
+      <AddButton />
     </div>
+   
 </template>
 
 <script>
 import Table from "../components/table";
 import json from "../assets/davisinfo.json";
 import headerinfo from "../assets/friendlyHeadingsFull.json";
+import AddButton from "../components/addbutton";
 
 export default {
   name: "Explorer",
@@ -35,7 +38,8 @@ export default {
   },
   computed: {},
   components: {
-    Table
+    Table,
+    AddButton
   }
 };
 </script>
@@ -83,7 +87,7 @@ export default {
   padding-left: 10%;
   padding-right: 10%;
   padding-top: 2em;
-  padding-bottom: 4em;
+  padding-bottom: 6em;
 }
 .tableholder table {
   border: 2px solid #779ee5;

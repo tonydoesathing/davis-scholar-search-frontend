@@ -167,6 +167,7 @@ td {
 
 th.active {
   color: #fff;
+  text-decoration: underline;
 }
 
 th.active .arrow {
