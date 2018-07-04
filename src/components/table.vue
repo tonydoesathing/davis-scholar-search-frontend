@@ -81,16 +81,22 @@ export default {
       var filterKey = this.filterKey && this.filterKey.toLowerCase();
       var order = this.sortOrder;
       var data = this.data;
+      var columns = this.columns;
       //filter data from string
       if (filterKey) {
         data = data.filter(function(row) {
-          return Object.keys(row).some(function(key) {
-            return (
-              String(row[key])
-                .toLowerCase()
-                .indexOf(filterKey) > -1
-            );
-          });
+          for (var column in columns) {
+            if (row[columns[column]] !== null) {
+              if (
+                String(row[columns[column]])
+                  .toLowerCase()
+                  .indexOf(filterKey) !== -1
+              ) {
+                return true;
+              }
+            }
+          }
+          return false;
         });
       }
       //sort data according to column
