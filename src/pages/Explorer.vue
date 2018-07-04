@@ -15,30 +15,25 @@
       <div class="tableholder">
         <Table :data="gridData" :columns="gridColumns" :filter-key="searchQuery" :keyHeadings="gridHeadings"/>
       </div>
-      
     </div>
 </template>
 
 <script>
 import Table from "../components/table";
-import JSON from "../assets/test.json";
+import json from "../assets/davisinfo.json";
+import headerinfo from "../assets/friendlyHeadingsFull.json";
 
 export default {
   name: "Explorer",
   data: function() {
     return {
       searchQuery: "",
-      gridColumns: ["Book ID", "Book Name", "Category", "Price", "URL"],
-      gridData: JSON,
-      gridHeadings: {
-        "Book ID": "HAMSTER",
-        "Book Name": "JIMMY",
-        Category: "bollocks",
-        Price: "Price",
-        URL: "URL"
-      }
+      gridColumns: ["school.name", "2015.student.size"],
+      gridData: json,
+      gridHeadings: headerinfo.keysToHeadings
     };
   },
+  computed: {},
   components: {
     Table
   }
@@ -87,6 +82,8 @@ export default {
   display: flex;
   padding-left: 10%;
   padding-right: 10%;
+  padding-top: 2em;
+  padding-bottom: 4em;
 }
 .tableholder table {
   border: 2px solid #779ee5;

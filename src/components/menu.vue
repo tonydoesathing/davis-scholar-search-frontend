@@ -71,7 +71,7 @@ export default {
   display: block;
 }
 #Menu {
-  position: absolute;
+  position: fixed;
   width: 230px;
   height: 100%;
   float: left;
@@ -94,7 +94,7 @@ export default {
   color: #cadedf;
 }
 #exitContainer {
-  position: absolute;
+  position: fixed;
   left: 20%;
   top: 0;
   width: 80%;
@@ -107,7 +107,7 @@ export default {
 .hamburger-holder {
   width: 60px;
   height: 60px;
-  position: absolute;
+  position: fixed;
   left: 1em;
   top: 1em;
   padding: 0.5em 0.5em;

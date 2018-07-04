@@ -1,31 +1,24 @@
 <template>
-  <div>
-    <table>
-        <thead>
-          <tr>
-            <th v-for="key in columns"
-              @click="sortBy(key)"
-              :class="{ active: sortKey == key }">
-              {{ keyHeadings[key] | capitalize }}
-              <span class="arrow" :class="sortOrders[key] > 0 ? 'asc' : 'dsc'">
-              </span>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="entry in filteredData">
-            <td v-for="key in columns">
-              <span v-html="entryFilter(entry[key])"></span>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-
-      <h2>Debug</h2>
-      <p>Sort key: {{this.sortKey}}</p>
-      <p>Sort Order: {{this.sortOrders}}</p>
-      <p>Column types: {{this.columnsType}}</p>
-  </div>
+  <table>
+      <thead>
+        <tr>
+          <th v-for="key in columns"
+            @click="sortBy(key)"
+            :class="{ active: sortKey == key }">
+            {{ keyHeadings[key] | capitalize }}
+            <span class="arrow" :class="sortOrders[key] > 0 ? 'asc' : 'dsc'">
+            </span>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="entry in filteredData">
+          <td v-for="key in columns">
+            <span v-html="entryFilter(entry[key])"></span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
     
 </template>
 <script>
@@ -97,11 +90,13 @@ export default {
     };
   },
   computed: {
+    //filter the data according to string
     filteredData: function() {
       var sortKey = this.sortKey;
       var filterKey = this.filterKey && this.filterKey.toLowerCase();
       var order = this.sortOrders[sortKey] || 1;
       var data = this.data;
+      //filter data from string
       if (filterKey) {
         data = data.filter(function(row) {
           return Object.keys(row).some(function(key) {
@@ -113,9 +108,11 @@ export default {
           });
         });
       }
+      console.log("made it through filter");
+      //sort data according to column
       if (sortKey) {
         var columnType = this.columnsType[sortKey];
-        data = data.slice().sort(function(a, b) {
+        data = data.sort(function(a, b) {
           a = a[sortKey];
           b = b[sortKey];
           if (columnType) {
