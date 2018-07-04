@@ -76,8 +76,9 @@ export default {
   height: 100%;
   float: left;
   top: 0;
-  left: -20%;
+  left: -230px;
   background-color: #111d33;
+  opacity: 0;
 
   -webkit-box-shadow: 10px 0px 60px -5px rgba(105, 105, 105, 0.67);
   -moz-box-shadow: 10px 0px 60px -5px rgba(105, 105, 105, 0.67);
@@ -89,6 +90,8 @@ export default {
 }
 #Menu.active {
   left: 0;
+  opacity: 1;
+  display: block;
 }
 #Menu span {
   color: #cadedf;

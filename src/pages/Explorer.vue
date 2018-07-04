@@ -15,7 +15,7 @@
       <div class="tableholder">
         <Table :data="gridData" :columns="gridColumns" :filter-key="searchQuery" :keyHeadings="gridHeadings"/>
       </div>
-      <AddButton />
+      <AddButton :headingCollection="gridHeadings" :activeHeadings="gridColumns" v-bind:headings.sync="gridColumns"/>
     </div>
    
 </template>

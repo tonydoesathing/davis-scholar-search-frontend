@@ -2,7 +2,19 @@
   <div class="addButtonHolder">
     <div class="bubble" :class="{active:isActive}">
       <div class="bubbleContentHolder">
-      
+        <div class="centerContainer">
+          <input type="text" placeholder="Search..." class="searchbox" name="query" v-model="searchQuery">
+
+        
+        </div>
+        <div class="listholder">
+          <ul>
+            <li v-for="entry in filteredData" >
+              <input type="checkbox" :id="entry.key" :value="entry.key" v-model="headingsActive"/>
+              <label :for="entry.key">{{entry.heading}}</label>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
     <div class="addbutton" @click="toggleActive">
@@ -16,8 +28,61 @@ export default {
   data: function() {
     return {
       isActive: false,
-      buttonIcon: "+"
+      buttonIcon: "+",
+      searchQuery: "",
+      headingsActive: this.activeHeadings
     };
+  },
+  props: {
+    headingCollection: {
+      default: function() {
+        return {
+          heading: "niceHeading",
+          heading2: "niceheading2"
+        };
+      }
+    },
+    activeHeadings: {
+      type: Array,
+      default: function() {
+        var arr = [];
+        for (var key in this.headinCollection) {
+          arr.push(key);
+        }
+        return arr;
+      }
+    }
+  },
+  computed: {
+    filteredData: function() {
+      var searchQuery = this.searchQuery && this.searchQuery.toLowerCase();
+      var results = [];
+      //filter data from string
+
+      if (searchQuery) {
+        for (var key in this.headingCollection) {
+          if (
+            this.headingCollection[key].toLowerCase().indexOf(searchQuery) !==
+            -1
+          ) {
+            results.push({
+              heading: this.headingCollection[key],
+              key: key
+            });
+          }
+        }
+        results.sort();
+      } else {
+        for (var key in this.headingCollection) {
+          results.push({
+            heading: this.headingCollection[key],
+            key: key
+          });
+        }
+        results.sort();
+      }
+      return results;
+    }
   },
   methods: {
     toggleActive: function() {
@@ -28,6 +93,11 @@ export default {
         this.isActive = true;
         this.buttonIcon = "-";
       }
+    }
+  },
+  watch: {
+    headingsActive: function(val) {
+      this.$emit("update:headings", this.headingsActive);
     }
   }
 };
@@ -64,6 +134,11 @@ export default {
 
   font-family: "Open Sans", sans-serif;
   font-weight: 300;
+
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+/Edge */
+  user-select: none; /* Standard */
 }
 .addButtonHolder {
   position: fixed;
@@ -91,6 +166,8 @@ export default {
   -webkit-box-shadow: 0px 2px 34px -5px rgba(0, 0, 0, 0.83);
   -moz-box-shadow: 0px 2px 34px -5px rgba(0, 0, 0, 0.83);
   box-shadow: 0px 2px 34px -5px rgba(0, 0, 0, 0.83);
+  display: flex; /* establish flex container */
+  flex-direction: column;
 }
 .bubbleContentHolder:after {
   content: "";
@@ -108,5 +185,41 @@ export default {
 .active {
   height: 400px;
   opacity: 1;
+}
+.centerContainer {
+  display: flex; /* establish flex container */
+  flex-direction: column; /* make main axis vertical */
+  justify-content: center; /* center items vertically, in this case */
+  align-items: center;
+  padding-top: 1em;
+  padding-bottom: 2em;
+}
+.centerContainer input {
+  width: 65%;
+}
+.listholder {
+  width: 95%;
+  flex: 1;
+  overflow-y: scroll;
+  margin-bottom: 5%;
+}
+.listholder::-webkit-scrollbar {
+  width: 1em;
+  padding-right: 5px;
+}
+
+.listholder::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  padding: 5px;
+}
+
+.listholder::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+  outline: 1px solid slategrey;
+}
+.listholder ul {
+  padding-right: 1em;
+  padding-bottom: 1em;
+  padding-left: 1em;
 }
 </style>

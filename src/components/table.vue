@@ -1,24 +1,32 @@
 <template>
-  <table>
-      <thead>
-        <tr>
-          <th v-for="key in columns"
-            @click="sortBy(key)"
-            :class="{ active: sortKey == key }">
-            {{ keyHeadings[key] | capitalize }}
-            <span class="arrow" :class="sortOrders[key] > 0 ? 'asc' : 'dsc'">
-            </span>
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="entry in filteredData">
-          <td v-for="key in columns">
-            <span v-html="entryFilter(entry[key])"></span>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <div>
+    <table>
+        <thead>
+          <tr>
+            <th v-for="key in columns"
+              @click="sortBy(key)"
+              :class="{ active: sortKey == key }">
+              {{ keyHeadings[key] | capitalize }}
+              <span class="arrow" :class="sortOrders[key] > 0 ? 'asc' : 'dsc'">
+              </span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="entry in filteredData">
+            <td v-for="key in columns">
+              <span v-html="entryFilter(entry[key])"></span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+    <h2>Debug</h2>
+    <p>Sort key: {{this.sortKey}}</p>
+    <p>Sort Order: {{this.sortOrders}}</p>
+    <p>Column types: {{this.columnsType}}</p>
+  </div>
+  
     
 </template>
 <script>
@@ -49,19 +57,7 @@ export default {
     data: Array,
     columns: Array,
     filterKey: String,
-    columnsType: {
-      type: Object,
-      default: function() {
-        var types = {};
-        for (var key in this.columns) {
-          //types[key] = typeof this.data[0][key];
-          types[this.columns[key]] = determineTypeOfStringData(
-            this.data[0][this.columns[key]]
-          );
-        }
-        return types;
-      }
-    },
+
     keyHeadings: {
       /*
         {
@@ -84,9 +80,17 @@ export default {
     this.columns.forEach(function(key) {
       sortOrders[key] = 1;
     });
+    var types = {};
+    for (var key in this.columns) {
+      //types[key] = typeof this.data[0][key];
+      types[this.columns[key]] = determineTypeOfStringData(
+        this.data[0][this.columns[key]]
+      );
+    }
     return {
       sortKey: "",
-      sortOrders: sortOrders
+      sortOrders: sortOrders,
+      columnsType: types
     };
   },
   computed: {
@@ -94,7 +98,9 @@ export default {
     filteredData: function() {
       var sortKey = this.sortKey;
       var filterKey = this.filterKey && this.filterKey.toLowerCase();
+      console.log("UPDATING WITH FOLLOWING SORT ORDER:");
       var order = this.sortOrders[sortKey] || 1;
+      console.log(order);
       var data = this.data;
       //filter data from string
       if (filterKey) {
@@ -108,7 +114,6 @@ export default {
           });
         });
       }
-      console.log("made it through filter");
       //sort data according to column
       if (sortKey) {
         var columnType = this.columnsType[sortKey];
@@ -135,6 +140,7 @@ export default {
     sortBy: function(key) {
       this.sortKey = key;
       this.sortOrders[key] = this.sortOrders[key] * -1;
+      this.$forceUpdate();
     },
     entryFilter: function(str) {
       /*if (!str) return " ";
@@ -145,6 +151,22 @@ export default {
         return linkifyHtml(str, {
           defaultProtocol: "https"
         });
+      }
+    }
+  },
+  watch: {
+    columns: function(newval, oldval) {
+      var newAdditions = [];
+      for (var j in newval) {
+        if (oldval.indexOf(newval[j]) === -1) {
+          newAdditions.push(newval[j]);
+        }
+      }
+      for (var k in newAdditions) {
+        this.sortOrders[newAdditions[k]] = 1;
+        this.columnsType[newAdditions[k]] = determineTypeOfStringData(
+          this.data[0][newAdditions[k]]
+        );
       }
     }
   }
