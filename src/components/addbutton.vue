@@ -3,7 +3,7 @@
     <div class="bubble" :class="{active:isActive}">
       <div class="bubbleContentHolder">
         <div class="centerContainer">
-          <input type="text" placeholder="Search..." class="searchbox" name="query" v-model="searchQuery">
+          <input type="text" placeholder="Search..." class="searchbox" name="query" v-model="searchQuery" autocomplete="off">
 
         
         </div>

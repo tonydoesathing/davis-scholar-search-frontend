@@ -131,7 +131,7 @@ body {
 
 @import url("https://fonts.googleapis.com/css?family=Encode+Sans+Condensed:400");
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:300");
-
+/*
 h1 {
   font-size: 3em;
   font-family: "Encode Sans Condensed", sans-serif;
@@ -158,6 +158,33 @@ span {
   font-family: "Encode Sans Condensed", sans-serif;
   font-weight: 100;
 }
+*/
+h1 {
+  font-size: 3em;
+  font-family: "Encode Sans Condensed", sans-serif;
+  font-weight: bold;
+}
+h2 {
+  font-size: 2em;
+  font-family: "Encode Sans Condensed", sans-serif;
+  font-weight: 400;
+}
+
+h3 {
+  font-size: 1.5em;
+  font-family: "Encode Sans Condensed", sans-serif;
+  font-weight: 400;
+}
+p {
+  font-size: 1em;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 300;
+}
+span {
+  font-size: 1em;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 300;
+}
 
 a:link {
   color: black;
@@ -180,6 +207,11 @@ a:active {
 }
 input {
   font-size: 1em;
-  font-family: "Encode Sans Condensed", sans-serif;
-  font-weight: 100;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 300;
+}
+label {
+  font-size: 1em;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 300;
 }

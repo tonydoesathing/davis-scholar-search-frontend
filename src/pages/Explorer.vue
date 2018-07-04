@@ -2,13 +2,13 @@
     <div>
       <div id="Heading">
         <div class="center-container">
-          <h1>Explorer</h1>
+          <h1 @click="toggleModal">Explorer</h1>
         </div>
         
         <div class="spacer"></div>
 
         <div class="center-container">
-          <input type="text" placeholder="Search..." class="searchbox" name="query" v-model="searchQuery">
+          <input type="text" placeholder="Search..." class="searchbox" name="query" v-model="searchQuery" autocomplete="off">
         </div>
         
       </div>
@@ -16,6 +16,7 @@
         <Table :data="gridData" :columns="gridColumns" :filter-key="searchQuery" :keyHeadings="gridHeadings"/>
       </div>
       <AddButton :headingCollection="gridHeadings" :activeHeadings="gridColumns" v-bind:headings.sync="gridColumns"/>
+      <SchoolComponent ref="schoolModal"/>
     </div>
    
 </template>
@@ -25,6 +26,7 @@ import Table from "../components/table";
 import json from "../assets/davisinfo.json";
 import headerinfo from "../assets/friendlyHeadingsFull.json";
 import AddButton from "../components/addbutton";
+import SchoolComponent from "../components/school.vue";
 
 export default {
   name: "Explorer",
@@ -51,10 +53,16 @@ export default {
       gridHeadings: headerinfo.keysToHeadings
     };
   },
+  methods: {
+    toggleModal: function() {
+      this.$refs.schoolModal.toggleActive();
+    }
+  },
   computed: {},
   components: {
     Table,
-    AddButton
+    AddButton,
+    SchoolComponent
   }
 };
 </script>
