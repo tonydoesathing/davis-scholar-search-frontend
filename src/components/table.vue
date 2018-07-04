@@ -1,31 +1,24 @@
 <template>
-  <div>
-    <table>
-        <thead>
-          <tr>
-            <th v-for="key in columns"
-              @click="sortBy(key)"
-              :class="{ active: sortKey == key }">
-              {{ keyHeadings[key] | capitalize }}
-              <span class="arrow" :class="sortOrders[key] > 0 ? 'asc' : 'dsc'">
-              </span>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="entry in filteredData">
-            <td v-for="key in columns">
-              <span v-html="entryFilter(entry[key])"></span>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-
-    <h2>Debug</h2>
-    <p>Sort key: {{this.sortKey}}</p>
-    <p>Sort Order: {{this.sortOrders}}</p>
-    <p>Column types: {{this.columnsType}}</p>
-  </div>
+  <table>
+      <thead>
+        <tr>
+          <th v-for="key in columns"
+            @click="sortBy(key)"
+            :class="{ active: sortKey == key }">
+            {{ keyHeadings[key] | capitalize }}
+            <span class="arrow" v-if="sortKey == key" :class="sortOrder > 0 ? 'asc' : 'dsc'">
+            </span>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="entry in filteredData">
+          <td v-for="key in columns">
+            <span v-html="entryFilter(entry[key])"></span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   
     
 </template>
@@ -76,21 +69,9 @@ export default {
     }
   },
   data: function() {
-    var sortOrders = {};
-    this.columns.forEach(function(key) {
-      sortOrders[key] = 1;
-    });
-    var types = {};
-    for (var key in this.columns) {
-      //types[key] = typeof this.data[0][key];
-      types[this.columns[key]] = determineTypeOfStringData(
-        this.data[0][this.columns[key]]
-      );
-    }
     return {
       sortKey: "",
-      sortOrders: sortOrders,
-      columnsType: types
+      sortOrder: 1
     };
   },
   computed: {
@@ -98,9 +79,7 @@ export default {
     filteredData: function() {
       var sortKey = this.sortKey;
       var filterKey = this.filterKey && this.filterKey.toLowerCase();
-      console.log("UPDATING WITH FOLLOWING SORT ORDER:");
-      var order = this.sortOrders[sortKey] || 1;
-      console.log(order);
+      var order = this.sortOrder;
       var data = this.data;
       //filter data from string
       if (filterKey) {
@@ -120,15 +99,43 @@ export default {
         data = data.sort(function(a, b) {
           a = a[sortKey];
           b = b[sortKey];
+          //put null entries at the bottom 'cause we don't care about them
+          if (a == null && b == null) {
+            return 0;
+          } else if (a == null && b !== null) {
+            return 1;
+          } else if (a !== null && b == null) {
+            return -1;
+          }
+
           if (columnType) {
             if (columnType === "number") {
-              return (+a === +b ? 0 : +a > +b ? 1 : -1) * order;
+              a = Number(a);
+              b = Number(b);
+              if (a > b) {
+                return 1 * order;
+              } else if (a < b) {
+                return -1 * order;
+              } else {
+                return 0;
+              }
             }
           }
           return (a === b ? 0 : a > b ? 1 : -1) * order;
         });
       }
       return data;
+    },
+    columnsType: function() {
+      var types = {};
+      for (var key in this.columns) {
+        //if you just find null data, just sort via string
+        //else determine type of sort
+        types[this.columns[key]] = determineTypeOfStringData(
+          this.data[0][this.columns[key]]
+        );
+      }
+      return types;
     }
   },
   filters: {
@@ -139,8 +146,7 @@ export default {
   methods: {
     sortBy: function(key) {
       this.sortKey = key;
-      this.sortOrders[key] = this.sortOrders[key] * -1;
-      this.$forceUpdate();
+      this.sortOrder *= -1;
     },
     entryFilter: function(str) {
       /*if (!str) return " ";
@@ -161,12 +167,6 @@ export default {
         if (oldval.indexOf(newval[j]) === -1) {
           newAdditions.push(newval[j]);
         }
-      }
-      for (var k in newAdditions) {
-        this.sortOrders[newAdditions[k]] = 1;
-        this.columnsType[newAdditions[k]] = determineTypeOfStringData(
-          this.data[0][newAdditions[k]]
-        );
       }
     }
   }

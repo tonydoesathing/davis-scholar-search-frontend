@@ -32,6 +32,21 @@ export default {
     return {
       searchQuery: "",
       gridColumns: ["school.name", "2015.student.size"],
+      /*
+        gridData format:
+        [
+          {
+            key:val,
+            key:val,
+            ...
+          },
+          {
+            key:val,
+            key:val,
+            ...
+          }
+        ]
+      */
       gridData: json,
       gridHeadings: headerinfo.keysToHeadings
     };
