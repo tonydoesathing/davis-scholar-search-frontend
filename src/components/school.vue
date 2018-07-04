@@ -3,8 +3,8 @@
     <div class="modal-background" @click="toggleActive"></div>
     <div class="modal">
       <div class="modal-header">
-        <h2>College University</h2>
-        <div class="exit-button"><span>X</span></div>
+        <h2>{{schoolData["school.name"]}}</h2>
+        <div class="exit-button" @click="toggleActive"><span>X</span></div>
       </div>
       <div class="modal-content">
         <div class="modal-content-left">
@@ -13,25 +13,15 @@
           <div class="modal-content-center-header">
             <div class="modal-content-center-header-left"><span><</span></div>
             <div class="modal-content-center-header-center">
-              <div>Category 1</div><div>Category 2</div><div>Category 3</div><div>Category 4</div><div>Category 5</div><div>Category 6</div>
+              <div v-for="(value,key) in navcategories" @click="activeHeadings=value"><h3>{{key}}</h3></div>
             </div>
             <div class="modal-content-center-header-right"><span>></span></div>
           </div>
           <div class="modal-content-center-content">
-            <table>
-              <tr>
-                <td class="shrink">Meow</td>
-                <td>meow</td>
-              </tr>
-              <tr>
-                <td class="shrink">Meow</td>
-                <td>meow</td>
-              </tr>
-              <tr>
-                <td class="shrink">Meow</td>
-                <td>meow</td>
-              </tr>
-            </table>
+            <div class="modal-content-center-content-divholder" v-for="entry in dataValues">
+              <div>{{entry.heading}}:</div>
+              <div class="modal-content-center-content-flexdiv">{{entry.value}}</div>
+            </div>
           </div>
         </div>
         <div class="modal-content-right">
@@ -43,11 +33,43 @@
   </div>  
 </template>
 <script>
+import navcategories from "../assets/navcategories.json";
 export default {
   data: function() {
     return {
-      isActive: false
+      isActive: false,
+      navcategories: navcategories,
+      activeHeadings: navcategories["Student Info"]
     };
+  },
+  computed: {
+    dataValues: function() {
+      var headings = this.activeHeadings.split(",");
+      var dataValues = [];
+      for (var heading in headings) {
+        dataValues.push({
+          heading: this.headingCollection[headings[heading]],
+          value: this.schoolData[headings[heading]]
+        });
+      }
+      return dataValues;
+    }
+  },
+  props: {
+    schoolData: {
+      type: Object,
+      default: function() {
+        return {};
+      }
+    },
+    headingCollection: {
+      default: function() {
+        return {
+          heading: "niceHeading",
+          heading2: "niceheading2"
+        };
+      }
+    }
   },
   methods: {
     toggleActive: function() {
@@ -55,6 +77,17 @@ export default {
         this.isActive = false;
       } else {
         this.isActive = true;
+      }
+    },
+    setDataValues: function(headings) {
+      this.dataValues = [];
+      headings = headings.split(",");
+      for (var heading in headings) {
+        console.log(this.schoolData);
+        this.dataValues.push({
+          heading: this.headingCollection[headings[heading]],
+          value: this.schoolData[headings[heading]]
+        });
       }
     }
   }
@@ -96,7 +129,6 @@ export default {
   flex-direction: column;
 }
 .modal-header {
-  background-color: blue;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -120,36 +152,30 @@ export default {
   user-select: none; /* Standard */
 }
 .exit-button:hover {
-  background-color: purple;
+  background-color: grey;
 }
 .modal-content {
   flex: 1;
-  background-color: green;
   display: flex;
   flex-direction: row;
 }
 .modal-footer {
   height: 10%;
-  background-color: blue;
 }
 .modal-content-left {
   width: 10%;
-  background-color: purple;
 }
 .modal-content-center {
   flex: 1;
-  background-color: yellow;
   display: flex;
   flex-direction: column;
 }
 .modal-content-center-header {
-  background-color: magenta;
   display: flex;
   flex-direction: row;
 }
 .modal-content-center-header-left {
   width: 5%;
-  background-color: yellow;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -162,7 +188,6 @@ export default {
 }
 .modal-content-center-header-center {
   flex: 1;
-  background-color: white;
   display: flex;
   align-items: center;
   overflow-x: auto;
@@ -178,12 +203,10 @@ export default {
   cursor: pointer;
 }
 .modal-content-center-header-center div:hover {
-  background-color: purple;
   text-decoration: underline;
 }
 .modal-content-center-header-right {
   width: 5%;
-  background-color: yellow;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -196,22 +219,20 @@ export default {
 }
 .modal-content-center-content {
   flex: 1;
-  background-color: green;
   overflow-y: auto;
-  display: flex;
+  display: block;
   padding: 5%;
 }
-.modal-content-center-content table {
-  flex: 1;
-}
-.modal-content-center-content td {
+.modal-content-center-content-divholder {
+  display: flex;
   padding: 2%;
 }
-.modal-content-center-content td.shrink {
-  white-space: nowrap;
+.modal-content-center-content-flexdiv {
+  flex: 1;
+  padding-left: 4%;
 }
+
 .modal-content-right {
   width: 10%;
-  background-color: purple;
 }
 </style>

@@ -16,7 +16,7 @@
         <Table :data="gridData" :columns="gridColumns" :filter-key="searchQuery" :keyHeadings="gridHeadings"/>
       </div>
       <AddButton :headingCollection="gridHeadings" :activeHeadings="gridColumns" v-bind:headings.sync="gridColumns"/>
-      <SchoolComponent ref="schoolModal"/>
+      <SchoolComponent ref="schoolModal" :schoolData="currentSchool" :headingCollection="gridHeadings"/>
     </div>
    
 </template>
@@ -50,7 +50,8 @@ export default {
         ]
       */
       gridData: json,
-      gridHeadings: headerinfo.keysToHeadings
+      gridHeadings: headerinfo.keysToHeadings,
+      currentSchool: json[0]
     };
   },
   methods: {
