@@ -11,11 +11,9 @@
         </div>
         <div class="modal-content-center">
           <div class="modal-content-center-header">
-            <div class="modal-content-center-header-left"><span><</span></div>
             <div class="modal-content-center-header-center">
-              <div v-for="(value,key) in navcategories" @click="activeHeadings=value"><h3>{{key}}</h3></div>
+              <div v-for="(value,key) in navcategories" @click="setActiveHeadings(key,value)" :class="{active:key===activeHeading}"><h3>{{key}}</h3></div>
             </div>
-            <div class="modal-content-center-header-right"><span>></span></div>
           </div>
           <div class="modal-content-center-content">
             <div class="modal-content-center-content-divholder" v-for="entry in dataValues">
@@ -39,7 +37,8 @@ export default {
     return {
       isActive: false,
       navcategories: navcategories,
-      activeHeadings: navcategories["Student Info"]
+      activeHeadings: navcategories["Student Info"],
+      activeHeading: "Student Info"
     };
   },
   computed: {
@@ -52,7 +51,7 @@ export default {
           value: this.schoolData[headings[heading]]
         });
       }
-      return dataValues;
+      return dataValues.sort();
     }
   },
   props: {
@@ -79,16 +78,9 @@ export default {
         this.isActive = true;
       }
     },
-    setDataValues: function(headings) {
-      this.dataValues = [];
-      headings = headings.split(",");
-      for (var heading in headings) {
-        console.log(this.schoolData);
-        this.dataValues.push({
-          heading: this.headingCollection[headings[heading]],
-          value: this.schoolData[headings[heading]]
-        });
-      }
+    setActiveHeadings: function(key, value) {
+      this.activeHeadings = value;
+      this.activeHeading = key;
     }
   }
 };
@@ -132,7 +124,8 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2%;
+  padding-top: 5%;
+  padding-bottom: 2%;
 }
 .exit-button {
   position: absolute;
@@ -141,7 +134,8 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  right: 2%;
+  right: 2em;
+  top: 2em;
   cursor: pointer;
 }
 .exit-button span {
@@ -191,6 +185,7 @@ export default {
   display: flex;
   align-items: center;
   overflow-x: auto;
+  justify-content: center;
 }
 .modal-content-center-header-center div {
   padding: 1.5%;
@@ -201,6 +196,9 @@ export default {
   -ms-user-select: none; /* IE10+/Edge */
   user-select: none; /* Standard */
   cursor: pointer;
+}
+.modal-content-center-header-center div.active {
+  text-decoration: underline;
 }
 .modal-content-center-header-center div:hover {
   text-decoration: underline;
@@ -221,7 +219,7 @@ export default {
   flex: 1;
   overflow-y: auto;
   display: block;
-  padding: 5%;
+  padding-left: 5%;
 }
 .modal-content-center-content-divholder {
   display: flex;

@@ -14,7 +14,8 @@
       <tbody>
         <tr v-for="entry in filteredData">
           <td v-for="key in columns">
-            <span v-html="entryFilter(entry[key])"></span>
+            <span v-if="isSchool(key)" @click="schoolSelect(entry)" class="school">{{entry[key]}}</span>
+            <span v-if="!isSchool(key)" v-html="entryFilter(entry[key])"></span>
           </td>
         </tr>
       </tbody>
@@ -164,6 +165,12 @@ export default {
           defaultProtocol: "https"
         });
       }
+    },
+    schoolSelect: function(school) {
+      this.$emit("update:activeSchool", school);
+    },
+    isSchool: function(key) {
+      return key === "school.name";
     }
   },
   watch: {
@@ -221,5 +228,12 @@ th.active .arrow {
   border-left: 4px solid transparent;
   border-right: 4px solid transparent;
   border-top: 4px solid #fff;
+}
+
+.school {
+  cursor: pointer;
+}
+.school:hover {
+  text-decoration: underline;
 }
 </style>

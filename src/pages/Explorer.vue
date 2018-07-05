@@ -2,7 +2,7 @@
     <div>
       <div id="Heading">
         <div class="center-container">
-          <h1 @click="toggleModal">Explorer</h1>
+          <h1>Explorer</h1>
         </div>
         
         <div class="spacer"></div>
@@ -13,10 +13,10 @@
         
       </div>
       <div class="tableholder">
-        <Table :data="gridData" :columns="gridColumns" :filter-key="searchQuery" :keyHeadings="gridHeadings"/>
+        <Table :data="gridData" :columns="gridColumns" :filter-key="searchQuery" :keyHeadings="gridHeadings" v-on:update:activeSchool="updateSchoolSelection($event)"/>
       </div>
       <AddButton :headingCollection="gridHeadings" :activeHeadings="gridColumns" v-bind:headings.sync="gridColumns"/>
-      <SchoolComponent ref="schoolModal" :schoolData="currentSchool" :headingCollection="gridHeadings"/>
+      <SchoolComponent ref="schoolModal" :schoolData="currentSchool" :headingCollection="gridHeadings" />
     </div>
    
 </template>
@@ -57,6 +57,12 @@ export default {
   methods: {
     toggleModal: function() {
       this.$refs.schoolModal.toggleActive();
+    },
+    updateSchoolSelection: function(event) {
+      //emits the ID of the school
+      //resolve id to be
+      this.currentSchool = event;
+      this.toggleModal();
     }
   },
   computed: {},
