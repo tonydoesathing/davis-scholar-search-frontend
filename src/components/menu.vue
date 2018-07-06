@@ -50,7 +50,7 @@ export default {
 </script>
 
 
-<style>
+<style scoped>
 #MenuComponent,
 #Menu {
   -webkit-transition: all 0.2s ease-out;
@@ -120,5 +120,8 @@ export default {
 }
 .navcontainer li:hover {
   background-color: #446ab4;
+}
+a:hover {
+  text-decoration: none !important;
 }
 </style>

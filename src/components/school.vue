@@ -3,7 +3,7 @@
     <div class="modal-background" @click="toggleActive"></div>
     <div class="modal">
       <div class="modal-header">
-        <h2>{{schoolData["school.name"]}}</h2>
+        <h2 @click="windowOpen()">{{schoolData["school.name"]}}</h2>
         <div class="exit-button" @click="toggleActive"><span>X</span></div>
       </div>
       <div class="modal-content">
@@ -16,10 +16,24 @@
             </div>
           </div>
           <div class="modal-content-center-content">
+            <table class="maxWidth">
+              <tbody>
+                <tr v-for="entry in dataValues">
+                  <td class="tdMinWidth">
+                    {{entry.heading}}
+                  </td>
+                  <td class="maxWidth">
+                    <span v-html="entryFilter(entry.value)"></span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          <!--
             <div class="modal-content-center-content-divholder" v-for="entry in dataValues">
               <div>{{entry.heading}}:</div>
               <div class="modal-content-center-content-flexdiv" v-html="entryFilter(entry.value)"></div>
             </div>
+            -->
           </div>
         </div>
         <div class="modal-content-right">
@@ -103,11 +117,24 @@ export default {
           defaultProtocol: "https"
         });
       }
+    },
+    windowOpen: function() {
+      var url = this.schoolData["school.school_url"];
+      if (!url.match(/^https?:\/\//i)) {
+        url = "http://" + url;
+      }
+      return window.open(url);
     }
   }
 };
 </script>
 <style scoped>
+h2 {
+  cursor: pointer;
+}
+h2:hover {
+  text-decoration: underline;
+}
 .inActive {
   opacity: 0;
   z-index: -500 !important;
@@ -254,5 +281,25 @@ export default {
 
 .modal-content-right {
   width: 10%;
+}
+
+td {
+  background-color: #f9f9f9;
+}
+tr:nth-child(odd) td {
+  background-color: #cadedf;
+}
+td {
+  font-size: 1em;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 300;
+  padding: 0.25em;
+  border: 5px solid white;
+}
+.maxWidth {
+  width: 100%;
+}
+.tdMinWidth {
+  white-space: nowrap;
 }
 </style>
