@@ -10,11 +10,6 @@
       <div class="navcontainer">
         <ul>
             <li><router-link to="/" ><span v-on:click="exitClick" >Explorer</span></router-link></li>
-            <ul>
-              <li><router-link to="/" ><span v-on:click="exitClick" >Admissions Data</span></router-link></li>
-              <li><router-link to="/" ><span v-on:click="exitClick" >Student Demographics</span></router-link></li>
-              <li><router-link to="/" ><span v-on:click="exitClick" >Cost and Aid</span></router-link></li>
-            </ul>
           <li><router-link to="/" ><span v-on:click="exitClick" >About</span></router-link></li>
         </ul>
       </div>

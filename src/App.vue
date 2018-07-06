@@ -2,7 +2,7 @@
   <div class="router-view">
     
     <router-view class="router-view"></router-view>
-    <Menu/>
+    
   </div>
 </template>
 

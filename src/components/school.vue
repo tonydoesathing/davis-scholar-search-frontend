@@ -18,7 +18,7 @@
           <div class="modal-content-center-content">
             <div class="modal-content-center-content-divholder" v-for="entry in dataValues">
               <div>{{entry.heading}}:</div>
-              <div class="modal-content-center-content-flexdiv">{{entry.value}}</div>
+              <div class="modal-content-center-content-flexdiv" v-html="entryFilter(entry.value)"></div>
             </div>
           </div>
         </div>
@@ -32,6 +32,13 @@
 </template>
 <script>
 import navcategories from "../assets/navcategories.json";
+import linkifyHtml from "linkifyjs/html";
+
+function isFloat(n) {
+  var num = parseFloat(n);
+  return num === num && num % 1 !== 0;
+}
+
 export default {
   data: function() {
     return {
@@ -81,6 +88,21 @@ export default {
     setActiveHeadings: function(key, value) {
       this.activeHeadings = value;
       this.activeHeading = key;
+    },
+    entryFilter: function(str) {
+      /*if (!str) return " ";
+     */
+      if (!str) {
+        return "";
+      } else if (isFloat(str)) {
+        var num = Number.parseFloat(str);
+        num *= 100;
+        return num.toString() + "%";
+      } else {
+        return linkifyHtml(str, {
+          defaultProtocol: "https"
+        });
+      }
     }
   }
 };

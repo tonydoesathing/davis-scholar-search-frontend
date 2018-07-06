@@ -71,7 +71,7 @@ export default {
   },
   data: function() {
     return {
-      sortKey: "",
+      sortKey: "school.name",
       sortOrder: 1
     };
   },
@@ -160,6 +160,10 @@ export default {
      */
       if (!str) {
         return "";
+      } else if (isFloat(str)) {
+        var num = Number.parseFloat(str);
+        num *= 100;
+        return num.toString() + "%";
       } else {
         return linkifyHtml(str, {
           defaultProtocol: "https"

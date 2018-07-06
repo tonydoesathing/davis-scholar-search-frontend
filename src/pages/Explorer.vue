@@ -1,6 +1,7 @@
 <template>
     <div>
       <div id="Heading">
+      
         <div class="center-container">
           <h1>Explorer</h1>
         </div>
@@ -16,6 +17,7 @@
         <Table :data="gridData" :columns="gridColumns" :filter-key="searchQuery" :keyHeadings="gridHeadings" v-on:update:activeSchool="updateSchoolSelection($event)"/>
       </div>
       <AddButton :headingCollection="gridHeadings" :activeHeadings="gridColumns" v-bind:headings.sync="gridColumns"/>
+      <Menu/>
       <SchoolComponent ref="schoolModal" :schoolData="currentSchool" :headingCollection="gridHeadings" />
     </div>
    
@@ -27,6 +29,7 @@ import json from "../assets/davisinfo.json";
 import headerinfo from "../assets/friendlyHeadingsFull.json";
 import AddButton from "../components/addbutton";
 import SchoolComponent from "../components/school.vue";
+import Menu from "../components/menu";
 
 export default {
   name: "Explorer",
@@ -69,7 +72,8 @@ export default {
   components: {
     Table,
     AddButton,
-    SchoolComponent
+    SchoolComponent,
+    Menu
   }
 };
 </script>
