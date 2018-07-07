@@ -104,6 +104,20 @@ export default {
     toggleActive: function() {
       if (this.isActive) {
         this.isActive = false;
+        //find keys with value!=0;
+        var dataValues = [];
+        for (var category in this.navcategories) {
+          for (var key in this.dataValues[category]) {
+            var value = this.dataValues[category][key].value;
+            if (value !== 0) {
+              dataValues.push({
+                key: key,
+                value: value
+              });
+            }
+          }
+        }
+        this.$emit("update:values", dataValues);
       } else {
         this.isActive = true;
       }

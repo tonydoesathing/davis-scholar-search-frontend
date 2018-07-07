@@ -19,7 +19,7 @@
       <AddButton :headingCollection="gridHeadings" :activeHeadings="gridColumns" v-bind:headings.sync="gridColumns"/>
       <Menu/>
       <SchoolComponent ref="schoolModal" :schoolData="currentSchool" :headingCollection="gridHeadings" />
-      <Score ref="scoreModal" :headingCollection="gridHeadings" />
+      <Score ref="scoreModal" :headingCollection="gridHeadings" v-on:update:values="updateScoreValues($event)"/>
     </div>
    
 </template>
@@ -32,6 +32,88 @@ import AddButton from "../components/addbutton";
 import SchoolComponent from "../components/school.vue";
 import Menu from "../components/menu";
 import Score from "../components/score";
+
+function Median(data) {
+  return Quartile_50(data);
+}
+
+function Quartile_25(data) {
+  return Quartile(data, 0.25);
+}
+
+function Quartile_50(data) {
+  return Quartile(data, 0.5);
+}
+
+function Quartile_75(data) {
+  return Quartile(data, 0.75);
+}
+
+function Quartile(data, q) {
+  data = Array_Sort_Numbers(data);
+  var pos = (data.length - 1) * q;
+  var base = Math.floor(pos);
+  var rest = pos - base;
+  if (data[base + 1] !== undefined) {
+    return data[base] + rest * (data[base + 1] - data[base]);
+  } else {
+    return data[base];
+  }
+}
+
+function Array_Sort_Numbers(inputarray) {
+  return inputarray.sort(function(a, b) {
+    return a - b;
+  });
+}
+
+function Array_Sum(t) {
+  return t.reduce(function(a, b) {
+    return a + b;
+  }, 0);
+}
+
+function Array_Average(data) {
+  return Array_Sum(data) / data.length;
+}
+
+function Array_Stdev(tab) {
+  var i,
+    j,
+    total = 0,
+    mean = 0,
+    diffSqredArr = [];
+  for (i = 0; i < tab.length; i += 1) {
+    total += tab[i];
+  }
+  mean = total / tab.length;
+  for (j = 0; j < tab.length; j += 1) {
+    diffSqredArr.push(Math.pow(tab[j] - mean, 2));
+  }
+  return Math.sqrt(
+    diffSqredArr.reduce(function(firstEl, nextEl) {
+      return firstEl + nextEl;
+    }) / tab.length
+  );
+}
+function isFloat(n) {
+  var num = parseFloat(n);
+  return num === num && num % 1 !== 0;
+}
+
+function determineTypeOfStringData(thestring) {
+  //do some magic to determine the actual data type of the string
+
+  //check for number
+  if (!Number.isNaN(Number(thestring))) {
+    if (isFloat(thestring)) {
+      thestring = parseFloat(thestring);
+    } else {
+      thestring = Number(thestring);
+    }
+  }
+  return typeof thestring;
+}
 
 export default {
   name: "Explorer",
@@ -71,7 +153,64 @@ export default {
       //resolve id to be
       this.currentSchool = event;
       this.toggleModal();
+    },
+    updateScoreValues: function(event) {
+      if (event.length > 0) {
+        for (var school in this.gridData) {
+          //calculate scores for schools
+
+          this.gridData[school]["customScore"] = "1";
+        }
+        if (!this.gridColumns.includes("customScore")) {
+          this.gridColumns.push("customScore");
+        }
+      } else {
+        for (var school in this.gridData) {
+          if (this.gridColumns.includes("customScore")) {
+            this.gridColumns.splice(this.gridColumns.indexOf("customScore"), 1);
+          }
+          delete this.gridData[school]["customScore"];
+        }
+      }
+
+      console.log(event);
     }
+  },
+  mounted: function() {
+    //build numeric collections for columns
+    /*
+    {
+      "header":[1,2,34,4,5,5,4,3,45,]
+    }
+    */
+    var columns = {};
+    for (var k in this.gridData[0]) {
+      if (!(k in columns)) {
+        columns[k] = [];
+      }
+    }
+    for (var school in this.gridData) {
+      for (var k in this.gridData[school]) {
+        columns[k].push(this.gridData[school][k]);
+      }
+    }
+    for (var collection in columns) {
+      //remove undefined
+      /* columns[collection] = columns[collection].filter(function(a) {
+        return a !== "null" && a !== null;
+      });*/
+      //convert strings to numbers
+      for (var key in columns[collection]) {
+        var obj = columns[collection][key];
+        if (determineTypeOfStringData(obj) === "number") {
+          columns[collection][key] = Number(obj);
+        } else {
+          columns[collection].splice(key, 1);
+        }
+      }
+    }
+
+    console.log(JSON.stringify(columns));
   },
   computed: {},
   components: {
