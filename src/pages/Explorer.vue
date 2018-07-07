@@ -1,6 +1,6 @@
 <template>
     <div>
-      <div id="Heading">
+      <div id="Heading" @click="toggleScoreModal">
       
         <div class="center-container">
           <h1>Explorer</h1>
@@ -19,6 +19,7 @@
       <AddButton :headingCollection="gridHeadings" :activeHeadings="gridColumns" v-bind:headings.sync="gridColumns"/>
       <Menu/>
       <SchoolComponent ref="schoolModal" :schoolData="currentSchool" :headingCollection="gridHeadings" />
+      <Score ref="scoreModal" :headingCollection="gridHeadings" />
     </div>
    
 </template>
@@ -30,6 +31,7 @@ import headerinfo from "../assets/friendlyHeadingsFull.json";
 import AddButton from "../components/addbutton";
 import SchoolComponent from "../components/school.vue";
 import Menu from "../components/menu";
+import Score from "../components/score";
 
 export default {
   name: "Explorer",
@@ -61,6 +63,9 @@ export default {
     toggleModal: function() {
       this.$refs.schoolModal.toggleActive();
     },
+    toggleScoreModal: function() {
+      this.$refs.scoreModal.toggleActive();
+    },
     updateSchoolSelection: function(event) {
       //emits the ID of the school
       //resolve id to be
@@ -73,7 +78,8 @@ export default {
     Table,
     AddButton,
     SchoolComponent,
-    Menu
+    Menu,
+    Score
   }
 };
 </script>
