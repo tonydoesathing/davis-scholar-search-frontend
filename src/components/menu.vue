@@ -10,7 +10,7 @@
       <div class="navcontainer">
         <ul>
             <li><router-link to="/" ><span v-on:click="exitClick" >Explorer</span></router-link></li>
-          <li><router-link to="/" ><span v-on:click="exitClick" >About</span></router-link></li>
+          <li><router-link to="/about" ><span v-on:click="exitClick" >About</span></router-link></li>
         </ul>
       </div>
     </div>

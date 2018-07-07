@@ -46,6 +46,7 @@ import linkifyHtml from "linkifyjs/html";
 import IconBase from "../icons/IconBase";
 import GraphIcon from "../icons/GraphIcon";
 import ResetIcon from "../icons/ResetIcon";
+import keytypes from "../assets/keytypes.json";
 
 export default {
   data: function() {
@@ -80,6 +81,10 @@ export default {
           key: key
         });
       }
+
+      visibleDatas = visibleDatas.filter(function(a) {
+        return keytypes[a.key] === "int";
+      });
       visibleDatas.sort();
       return visibleDatas;
     }

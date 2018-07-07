@@ -1,9 +1,13 @@
 <template>
     <div>
-      <div id="Heading" @click="toggleScoreModal">
+      <div id="Heading" >
       
         <div class="center-container">
           <h1>Explorer</h1>
+          
+        </div>
+        <div class="center-container button-holder">
+          <button @click="toggleScoreModal">Custom Score (alpha)</button>
         </div>
         
         <div class="spacer"></div>
@@ -32,6 +36,8 @@ import AddButton from "../components/addbutton";
 import SchoolComponent from "../components/school.vue";
 import Menu from "../components/menu";
 import Score from "../components/score";
+import numericalData from "../assets/davisNumericalData.json";
+import keyTypes from "../assets/keytypes.json";
 
 function Median(data) {
   return Quartile_50(data);
@@ -96,6 +102,7 @@ function Array_Stdev(tab) {
     }) / tab.length
   );
 }
+
 function isFloat(n) {
   var num = parseFloat(n);
   return num === num && num % 1 !== 0;
@@ -138,7 +145,8 @@ export default {
       */
       gridData: json,
       gridHeadings: headerinfo.keysToHeadings,
-      currentSchool: json[0]
+      currentSchool: json[0],
+      statisticalData: {}
     };
   },
   methods: {
@@ -158,8 +166,27 @@ export default {
       if (event.length > 0) {
         for (var school in this.gridData) {
           //calculate scores for schools
+          var score = 0;
+          for (var k in event) {
+            //k.key, k.value
+            //if k.value is negative, it means that function should be decreasing over domain
+            //k.value is also equal to the weight of the key in the score (mult function result by this)
+            var localscore = 0;
 
-          this.gridData[school]["customScore"] = "1";
+            var d = this.statisticalData[event[k].key].d;
+            var x = Number(this.gridData[school][event[k].key]);
+            var a = this.statisticalData[event[k].key].median * -1;
+            if (event[k].value > 0) {
+              //positive; we want increasing over time, so d will be negative
+              localscore = 1 / (1 + Math.pow(Math.E, -d * (x + a)));
+              localscore *= event[k].value;
+            } else {
+              localscore = 1 / (1 + Math.pow(Math.E, d * (x + a)));
+              localscore *= event[k].value * -1;
+            }
+            score += localscore;
+          }
+          this.gridData[school]["customScore"] = score.toString();
         }
         if (!this.gridColumns.includes("customScore")) {
           this.gridColumns.push("customScore");
@@ -172,17 +199,10 @@ export default {
           delete this.gridData[school]["customScore"];
         }
       }
-
-      console.log(event);
     }
   },
   mounted: function() {
     //build numeric collections for columns
-    /*
-    {
-      "header":[1,2,34,4,5,5,4,3,45,]
-    }
-    */
     var columns = {};
     for (var k in this.gridData[0]) {
       if (!(k in columns)) {
@@ -210,7 +230,29 @@ export default {
       }
     }
 
-    console.log(JSON.stringify(columns));
+    var data = columns;
+    var statisticalNumbers = {};
+    for (var key in data) {
+      //if it's an int do calculations
+      if (keyTypes[key] === "int") {
+        var statisticalAnalysis = {
+          median: Median(data[key]),
+          q1: Quartile_25(data[key]),
+          q3: Quartile_75(data[key]),
+          d: 0
+        };
+        var quartileMean =
+          (statisticalAnalysis.q1 + statisticalAnalysis.q3) / 2;
+        statisticalAnalysis.d =
+          1.318824 *
+          Math.pow(
+            (statisticalAnalysis.q1 + statisticalAnalysis.q3) / 2,
+            -1.002155
+          );
+        statisticalNumbers[key] = statisticalAnalysis;
+      }
+    }
+    this.statisticalData = statisticalNumbers;
   },
   computed: {},
   components: {
@@ -291,5 +333,22 @@ export default {
   font-weight: 300;
   padding: 0.25em;
   border: 5px solid white;
+}
+.button-holder {
+  padding-left: 1em;
+}
+.button-holder button {
+  background-color: #306598; /* Green */
+  border: none;
+  color: white;
+  padding: 1em 1.5em;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+}
+.button-holder button:hover {
+  background-color: #00b6ef;
 }
 </style>

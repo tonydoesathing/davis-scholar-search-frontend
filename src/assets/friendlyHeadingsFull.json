@@ -1,26 +1,26 @@
 {
   "keysToHeadings": {
-    "2015.student.demographics.race_ethnicity.asian": "# of Asian Students",
+    "2015.student.demographics.race_ethnicity.asian": "% of Asian Students",
     "2015.aid.cumulative_debt.10th_percentile":
       "10th Percentile Cumulative Debt",
-    "2015.student.demographics.men": "# of Male Students",
+    "2015.student.demographics.men": "% of Male Students",
     "2015.cost.tuition.out_of_state": "Out-of-State Tuition",
     "2015.admissions.sat_scores.75th_percentile.writing":
       "SAT 75th Percentile Writing",
     "2015.student.demographics.race_ethnicity.aian":
-      "# of Native American Students",
+      "% of Native American Students",
     "2015.admissions.act_scores.midpoint.cumulative": "ACT Midpoint Cumulative",
     "2015.academics.program_percentage.library": "% in Library",
     "2015.admissions.sat_scores.midpoint.writing": "SAT Midpoint Writing",
     "2015.student.size": "# of Students",
     "2015.cost.avg_net_price.overall": "Average Overall Price",
     "2015.student.demographics.race_ethnicity.unknown":
-      "# of Students of Unknown Race",
+      "% of Students of Unknown Race",
     "2015.academics.program_percentage.biological": "% in Biological Studies",
     "2015.academics.program_percentage.ethnic_cultural_gender":
       "% in Ethnic/Cultural/Gender Studies",
     "2015.admissions.admission_rate.overall": "Admission Rate",
-    "2015.student.demographics.race_ethnicity.white": "# of White Students",
+    "2015.student.demographics.race_ethnicity.white": "% of White Students",
     "2015.admissions.act_scores.25th_percentile.math":
       "ACT 25th Percentile Math",
     "2015.admissions.sat_scores.75th_percentile.critical_reading":
@@ -35,7 +35,7 @@
       "% in Personal Culinary Studies",
     "school.price_calculator_url": "Price Calculator URL",
     "2015.student.demographics.first_generation":
-      "# of First Generation Students",
+      "% of First Generation Students",
     "2015.academics.program_percentage.education": "% in Education",
     "2015.academics.program_percentage.construction": "% in Construction",
     "2015.academics.program_percentage.philosophy_religious":
@@ -49,7 +49,7 @@
     "2015.academics.program_percentage.english": "% in English",
     "2015.admissions.sat_scores.midpoint.critical_reading":
       "SAT Midpoint Critical Reading",
-    "2015.student.demographics.race_ethnicity.black": "# of Black Students",
+    "2015.student.demographics.race_ethnicity.black": "% of Black Students",
     "2015.academics.program_percentage.communications_technology":
       "% in Communications Technology",
     "2015.academics.program_percentage.legal": "% in Legal",
@@ -59,7 +59,7 @@
       "75th Percentile Cumulative Debt",
     "2015.cost.attendance.academic_year": "Academic Year Price",
     "2015.student.demographics.race_ethnicity.non_resident_alien":
-      "# of International Students",
+      "% of International Students",
     "2015.admissions.sat_scores.25th_percentile.math":
       "SAT 25th Percentile Math",
     "2015.admissions.sat_scores.25th_percentile.critical_reading":
@@ -86,7 +86,7 @@
     "2015.academics.program_percentage.humanities": "% in Humanities",
     "2015.admissions.act_scores.midpoint.english": "ACT Midpoint English",
     "2015.student.demographics.race_ethnicity.two_or_more":
-      "# of Multi-Racial Students",
+      "% of Multi-Racial Students",
     "2015.admissions.sat_scores.25th_percentile.writing":
       "SAT 25th Percentile Writing",
     "2015.academics.program_percentage.precision_production":
@@ -107,7 +107,7 @@
     "2015.academics.program_percentage.mathematics": "% in Mathematics",
     "2015.admissions.act_scores.midpoint.writing": "ACT Midpoint Writing",
     "2015.student.demographics.race_ethnicity.hispanic":
-      "# of Hispanic Students",
+      "% of Hispanic Students",
     "2015.academics.program_percentage.visual_performing":
       "% in Visual Performing",
     "2015.academics.program_percentage.agriculture": "% in Agriculture",
