@@ -1,6 +1,9 @@
-# test-project
+# Davis Scholar Search
 
-> A Vue.js project
+A webapp to help sort through College Scorecard's data for the Davis Scholar schools.
+
+View at [Code Sandbox](https://codesandbox.io/s/github/tonydoesathing/davis-scholar-search-frontend)
+
 
 ## Build Setup
 
@@ -13,15 +16,4 @@ npm run dev
 
 # build for production with minification
 npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-
-# run unit tests
-npm run unit
-
-# run all tests
-npm test
 ```
-
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
