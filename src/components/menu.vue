@@ -3,7 +3,7 @@
   
   
     <div class="hamburger-holder">
-      <img v-on:click="buttonClick" class="hamburger" src="../assets/Hamburger.svg">
+      <img v-on:click="buttonClick" class="hamburger" src="">
     </div>
     <div id="Menu" v-bind:class="activeCheck">
       <h2>Davis Scholar Search</h2>

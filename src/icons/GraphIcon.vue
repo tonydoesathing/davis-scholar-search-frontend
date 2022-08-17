@@ -2,7 +2,7 @@
     <IconBase :icon-name="iconName" :width="width" :height="height" :iconColor="iconColor"><AscendingGraph v-if="ascending"/><DescendingGraph v-if="!ascending"/></IconBase>
 </template>
 <script>
-import IconBase from "./IconBase";
+import IconBase from "./IconBase"; 
 import AscendingGraph from "./AscendingGraph";
 import DescendingGraph from "./DescendingGraph";
 import Color from "color";

@@ -1,6 +1,5 @@
 import Explorer from "./pages/Explorer";
 import About from "./pages/About";
-import Bar from "./pages/Bar";
 
 const routes = [
   {
